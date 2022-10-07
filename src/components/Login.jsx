@@ -6,6 +6,7 @@ import Header from "./Header";
 import jwtDecode from "jwt-decode";
 import Cookie from "js-cookie";
 import "../styles/login.css";
+import hashPassword from "../utils/hashPassword";
 
 const Login = () => {
   const [details, setDetails] = useState({
@@ -13,12 +14,18 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [generatedPassword, setGeneratedPassword] = useState("");
   const [error, setError] = useState(null);
   const { setUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleChange = ({ target: { value, id } }) => {
     setDetails((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handlePasswordGenChange = (e) => {
+    const pass = hashPassword(e.target.value);
+    setGeneratedPassword(pass);
   };
 
   const handleSubmit = (e) => {
@@ -57,6 +64,15 @@ const Login = () => {
           </button>
           {error && <p className="error">{error}</p>}
         </form>
+      </div>
+      <div className="container">
+        <label htmlFor="hashPassword">Password Hash Generator</label>
+        <input
+          id="hashPassword"
+          type="text"
+          onChange={handlePasswordGenChange}
+        />
+        <div>Hashed Password: {generatedPassword}</div>
       </div>
     </>
   );
