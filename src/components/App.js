@@ -1,5 +1,5 @@
 import "../styles/app.css";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AuthContext from "../utils/AuthContext";
 import Home from "./Home";
@@ -25,7 +25,10 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/account" element={<Account />} />
+            <Route
+              path="/account"
+              element={user ? <Account /> : <Navigate to="/login" replace />}
+            />
             <Route path="/login" element={<Login />} />
           </Routes>
         </BrowserRouter>
