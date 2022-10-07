@@ -5,6 +5,7 @@ import AuthContext from "../utils/AuthContext";
 import Header from "./Header";
 import jwtDecode from "jwt-decode";
 import Cookie from "js-cookie";
+import bcrypt from "bcryptjs";
 import "../styles/login.css";
 import hashPassword from "../utils/hashPassword";
 
@@ -31,11 +32,19 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const fetchHashResult = fetchHash(details.username, details.email);
-    console.log(fetchHashResult, "<-- fetchHashResult")
+    console.log(fetchHashResult, "<-- fetchHashResult");
     if (fetchHashResult.error) {
       setError(fetchHashResult.error);
     } else {
-      console.log(fetchHashResult.hash, "<-- hashed password");
+      const correctHash = bcrypt.compareSync(
+        details.password,
+        fetchHashResult.hash
+      );
+      if (correctHash) {
+        console.log('correct hash')
+      } else {
+        console.log('incorrect hash')
+      }
     }
 
     const res = attemptLogin(details);
