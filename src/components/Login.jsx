@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import fakeLogin from "../utils/fakeLogin";
+import AuthContext from "../utils/AuthContext";
 import Header from "./Header";
 import "../styles/login.css";
 
@@ -10,6 +11,7 @@ const Login = () => {
     password: "",
   });
   const [error, setError] = useState(null);
+  const { setUser } = useContext(AuthContext);
 
   const handleChange = ({ target: { value, id } }) => {
     setDetails((prev) => ({ ...prev, [id]: value }));
@@ -25,6 +27,8 @@ const Login = () => {
       setError(res.error);
     } else {
       console.log("credentials are correct", "<-- login");
+      console.log(res.token, "<-- res.token");
+      setUser(res.token);
       setError(null);
     }
   };
@@ -41,7 +45,9 @@ const Login = () => {
           <input id="email" onChange={handleChange} />
           <label htmlFor="password">Password</label>
           <input id="password" type="password" onChange={handleChange} />
-          <button className="login__form-button" type="submit">Login</button>
+          <button className="login__form-button" type="submit">
+            Login
+          </button>
           {error && <p className="error">{error}</p>}
         </form>
       </div>
