@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { attemptLogin } from "../utils/fakeLogin";
+import { attemptLogin, fetchHash } from "../utils/fakeLogin";
 import AuthContext from "../utils/AuthContext";
 import Header from "./Header";
 import jwtDecode from "jwt-decode";
@@ -30,9 +30,14 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    /* Normally the password (in details) would be hashed with bcrypt
-        This example uses hardcoded data without the backend but you must always
-        remember to hash your passwords before sending them to the backend */
+    const fetchHashResult = fetchHash(details.username, details.email);
+    console.log(fetchHashResult, "<-- fetchHashResult")
+    if (fetchHashResult.error) {
+      setError(fetchHashResult.error);
+    } else {
+      console.log(fetchHashResult.hash, "<-- hashed password");
+    }
+
     const res = attemptLogin(details);
     if (res.error) {
       setError(res.error);

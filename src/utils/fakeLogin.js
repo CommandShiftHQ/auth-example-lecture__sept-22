@@ -34,3 +34,15 @@ export const attemptLogin = (details) => {
     return { error: "details are incorrect" };
   }
 };
+
+export const fetchHash = (username, email) => {
+  const foundUser = validUser.find((user) => {
+    return user.username === username && user.email === email;
+  });
+  console.log(foundUser, ",<-- foundUser");
+  if (foundUser) {
+    return { hash: foundUser.password };
+  } else {
+    return { error: "Credentials are invalid" };
+  }
+};
