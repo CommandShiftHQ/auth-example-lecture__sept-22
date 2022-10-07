@@ -4,6 +4,7 @@ import fakeLogin from "../utils/fakeLogin";
 import AuthContext from "../utils/AuthContext";
 import Header from "./Header";
 import jwtDecode from "jwt-decode";
+import Cookie from "js-cookie";
 import "../styles/login.css";
 
 const Login = () => {
@@ -33,6 +34,8 @@ const Login = () => {
       console.log(currentUser, "<-- currentUser");
       setUser(currentUser);
       setError(null);
+      // expiry date is expressed in days. 1/24 == 1 hour expiry time
+      Cookie.set("token", res.token, { expires: 1 / 24 });
       navigate("/account");
     }
   };
