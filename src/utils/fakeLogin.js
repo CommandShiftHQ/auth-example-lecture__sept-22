@@ -17,8 +17,7 @@ export const attemptLogin = (details) => {
   const isUser = validUser.find((user) => {
     return (
       user.username === details.username &&
-      user.email === details.email &&
-      user.password === details.password
+      user.email === details.email
     );
   });
   if (isUser) {

@@ -41,24 +41,23 @@ const Login = () => {
         fetchHashResult.hash
       );
       if (correctHash) {
-        console.log('correct hash')
+        const res = attemptLogin(details);
+        if (res.error) {
+          setError(res.error);
+        } else {
+          const currentUser = jwtDecode(res.token);
+          console.log(currentUser, "<-- currentUser");
+          setUser(currentUser);
+          setError(null);
+          // expiry date is expressed in days. 1/24 == 1 hour expiry time
+          Cookie.set("token", res.token, { expires: 1 / 24 });
+          navigate("/account");
+        }
       } else {
-        console.log('incorrect hash')
+        setError("Credentials are invalid");
       }
     }
 
-    const res = attemptLogin(details);
-    if (res.error) {
-      setError(res.error);
-    } else {
-      const currentUser = jwtDecode(res.token);
-      console.log(currentUser, "<-- currentUser");
-      setUser(currentUser);
-      setError(null);
-      // expiry date is expressed in days. 1/24 == 1 hour expiry time
-      Cookie.set("token", res.token, { expires: 1 / 24 });
-      navigate("/account");
-    }
   };
 
   return (
