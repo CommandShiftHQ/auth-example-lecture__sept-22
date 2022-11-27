@@ -7,9 +7,7 @@ Array [
   >
     <div
       className="header__username"
-    >
-      username
-    </div>
+    />
     <a
       className="header__nav-link"
       href="/"
@@ -17,12 +15,13 @@ Array [
     >
       Home
     </a>
-    <div
+    <a
       className="header__nav-link"
+      href="/account"
       onClick={[Function]}
     >
       Account
-    </div>
+    </a>
     <a
       className="header__nav-link"
       href="/login"
@@ -34,7 +33,7 @@ Array [
   <p
     className="login__title"
   >
-    Please enter your details below to login
+    Please enter your details below to
   </p>,
   <div
     className="container"
@@ -65,6 +64,14 @@ Array [
         htmlFor="password"
       >
         Password
+          
+        <button
+          onClick={[Function]}
+          type="button"
+        >
+          Show 
+          Password
+        </button>
       </label>
       <input
         id="password"
@@ -78,6 +85,24 @@ Array [
         Login
       </button>
     </form>
+  </div>,
+  <div
+    className="container"
+  >
+    <label
+      htmlFor="hashPassword"
+    >
+      Password Hash Generator
+    </label>
+    <input
+      id="hashPassword"
+      onChange={[Function]}
+      type="text"
+    />
+    <div>
+      Hashed Password: 
+      
+    </div>
   </div>,
 ]
 `;

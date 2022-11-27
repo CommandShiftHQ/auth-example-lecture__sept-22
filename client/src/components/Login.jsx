@@ -1,11 +1,8 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { attemptLogin, fetchHash } from "../utils/fakeLogin";
+import { postLogIn } from "../utils/login";
 import AuthContext from "../utils/AuthContext";
 import Header from "./Header";
-import jwtDecode from "jwt-decode";
-import Cookie from "js-cookie";
-import bcrypt from "bcryptjs";
 import "../styles/login.css";
 import hashPassword from "../utils/hashPassword";
 
@@ -17,7 +14,8 @@ const Login = () => {
   });
   const [generatedPassword, setGeneratedPassword] = useState("");
   const [error, setError] = useState(null);
-  const { setUser } = useContext(AuthContext);
+  const [passwordVisibility, setPasswordVisibility] = useState("password");
+  const setUser = useContext(AuthContext)?.setUser;
   const navigate = useNavigate();
 
   const handleChange = ({ target: { value, id } }) => {
@@ -29,49 +27,54 @@ const Login = () => {
     setGeneratedPassword(pass);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const fetchHashResult = fetchHash(details.username, details.email);
-    console.log(fetchHashResult, "<-- fetchHashResult");
-    if (fetchHashResult.error) {
-      setError(fetchHashResult.error);
-    } else {
-      const correctHash = bcrypt.compareSync(
-        details.password,
-        fetchHashResult.hash
-      );
-      if (correctHash) {
-        const res = attemptLogin(details);
-        if (res.error) {
-          setError(res.error);
-        } else {
-          const currentUser = jwtDecode(res.token);
-          console.log(currentUser, "<-- currentUser");
-          setUser(currentUser);
-          setError(null);
-          // expiry date is expressed in days. 1/24 == 1 hour expiry time
-          Cookie.set("token", res.token, { expires: 1 / 24 });
-          navigate("/account");
-        }
-      } else {
-        setError("Credentials are invalid");
-      }
-    }
 
+    postLogIn(details)
+      .then((res) => {
+        console.log("response: ", res);
+        if (res.status === 201) {
+          setUser(details);
+          setError(null);
+          navigate("/account");
+        } else {
+          console.log(res.message);
+          setError(res.message);
+        }
+      })
+      .catch((res) => {
+        console.log(res.error);
+        setError(res.error);
+      });
+  };
+
+  const handlePasswordToggle = () => {
+    setPasswordVisibility(
+      passwordVisibility === "password" ? "text" : "password"
+    );
   };
 
   return (
     <>
       <Header />
-      <p className="login__title">Please enter your details below to login</p>
+      <p className="login__title">Please enter your details below to</p>
       <div className="container">
         <form className="login__form" onSubmit={handleSubmit}>
           <label htmlFor="username">Username</label>
           <input id="username" onChange={handleChange} />
           <label htmlFor="email">Email</label>
           <input id="email" onChange={handleChange} />
-          <label htmlFor="password">Password</label>
-          <input id="password" type="password" onChange={handleChange} />
+          <label htmlFor="password">
+            Password{"  "}
+            <button type="button" onClick={handlePasswordToggle}>
+              {passwordVisibility === "password" ? "Show " : "Hide "}Password
+            </button>
+          </label>
+          <input
+            id="password"
+            type={passwordVisibility}
+            onChange={handleChange}
+          />
           <button className="login__form-button" type="submit">
             Login
           </button>

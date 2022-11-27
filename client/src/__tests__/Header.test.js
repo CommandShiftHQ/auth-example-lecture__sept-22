@@ -25,8 +25,8 @@ describe("Login form component", () => {
         const loginLink = screen.getByRole("link", { name: "Login" });
         const accountLink = screen.getByText("Account");
 
-        expect(homeLink).toBeInTheDocument;
-        expect(loginLink).toBeInTheDocument;
-        expect(accountLink).toBeInTheDocument;
+        expect(homeLink).toBeInTheDocument();
+        expect(loginLink).toBeInTheDocument();
+        expect(accountLink).toBeInTheDocument();
     });
 });

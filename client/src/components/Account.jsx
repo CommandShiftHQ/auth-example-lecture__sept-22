@@ -10,7 +10,7 @@ const Account = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    Cookie.remove("token");
+    Cookie.remove("userToken");
     setUser(null);
     navigate("/");
   };

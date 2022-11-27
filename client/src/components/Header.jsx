@@ -4,7 +4,7 @@ import { useContext } from "react";
 import AuthContext from "../utils/AuthContext";
 
 const Header = () => {
-  const { user } = useContext(AuthContext);
+  const user = useContext(AuthContext)?.user;
 
   return (
     <nav className="header">
@@ -12,7 +12,9 @@ const Header = () => {
       <Link className="header__nav-link" to="/">
         Home
       </Link>
-      <Link className="header__nav-link" to="/account">Account</Link>
+      <Link className="header__nav-link" to="/account">
+        Account
+      </Link>
       <Link className="header__nav-link" to="/login">
         Login
       </Link>

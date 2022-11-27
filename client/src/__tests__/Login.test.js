@@ -22,7 +22,7 @@ describe("Login form component", () => {
             </Router>
         );
 
-        expect(screen.getByText("Please enter your details below to login")).toBeInTheDocument;
+        expect(screen.getByText("Please enter your details below to login")).toBeInTheDocument();
     });
 
     it("renders all form elements", () => {
@@ -36,10 +36,10 @@ describe("Login form component", () => {
         const passwordField = screen.getByText("Password");
         const loginButton = screen.getByRole("button", { name: "Login" });
 
-        expect(usernameField).toBeInTheDocument;
-        expect(emailField).toBeInTheDocument;
-        expect(passwordField).toBeInTheDocument;
-        expect(loginButton).toBeInTheDocument;
+        expect(usernameField).toBeInTheDocument();
+        expect(emailField).toBeInTheDocument();
+        expect(passwordField).toBeInTheDocument();
+        expect(loginButton).toBeInTheDocument();
     });
 
     it("shows login failure message with non existent user", async () => {
@@ -60,6 +60,6 @@ describe("Login form component", () => {
         fireEvent.click(loginButton);
 
         const errorMessage = await screen.findByText("details are incorrect");
-        expect(errorMessage).toBeInTheDocument;
+        expect(errorMessage).toBeInTheDocument();
     });
 });
