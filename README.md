@@ -1,5 +1,10 @@
 # Authorisation and Authentication demo for FE module
 
+## Before you start...
+
+**Please don't make direct changes to this repo.**  
+Fork the repo first. Danke!
+
 ## The Repo
 
 - The `step-01__start` branch is your jumping off point.  
