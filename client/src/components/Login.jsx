@@ -4,7 +4,6 @@ import { postLogIn } from "../utils/login";
 import AuthContext from "../utils/AuthContext";
 import Header from "./Header";
 import "../styles/login.css";
-import hashPassword from "../utils/hashPassword";
 
 const Login = () => {
   const [details, setDetails] = useState({
@@ -12,7 +11,8 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const [generatedPassword, setGeneratedPassword] = useState("");
+
+  const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [passwordVisibility, setPasswordVisibility] = useState("password");
   const setUser = useContext(AuthContext)?.setUser;
@@ -22,9 +22,8 @@ const Login = () => {
     setDetails((prev) => ({ ...prev, [id]: value }));
   };
 
-  const handlePasswordGenChange = (e) => {
-    const pass = hashPassword(e.target.value);
-    setGeneratedPassword(pass);
+  const handleSetPassword = (e) => {
+    setPassword(e.target.value);
   };
 
   const handleSubmit = async (e) => {
@@ -86,9 +85,9 @@ const Login = () => {
         <input
           id="hashPassword"
           type="text"
-          onChange={handlePasswordGenChange}
+          onChange={handleSetPassword}
         />
-        <div>Hashed Password: {generatedPassword}</div>
+        <div>Hashed Password: {password}</div>
       </div>
     </>
   );

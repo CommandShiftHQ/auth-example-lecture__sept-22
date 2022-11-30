@@ -2,7 +2,6 @@ import "../styles/account.css";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import Cookie from "js-cookie";
 import AuthContext from "../utils/AuthContext";
 
 const Account = () => {
@@ -10,7 +9,6 @@ const Account = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    Cookie.remove("userToken");
     setUser(null);
     navigate("/");
   };
