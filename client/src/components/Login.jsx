@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { postLogIn } from "../utils/login";
 import AuthContext from "../utils/AuthContext";
+import hashPassword from "../utils/hashPassword";
 import Header from "./Header";
 import "../styles/login.css";
 
@@ -12,7 +13,8 @@ const Login = () => {
     password: "",
   });
 
-  const [password, setPassword] = useState("");
+  const [hashedPassword, setHashedPassword] = useState("");
+
   const [error, setError] = useState(null);
   const [passwordVisibility, setPasswordVisibility] = useState("password");
   const setUser = useContext(AuthContext)?.setUser;
@@ -22,8 +24,8 @@ const Login = () => {
     setDetails((prev) => ({ ...prev, [id]: value }));
   };
 
-  const handleSetPassword = (e) => {
-    setPassword(e.target.value);
+  const handleHashPassword = (e) => {
+    setHashedPassword(hashPassword(e.target.value));
   };
 
   const handleSubmit = async (e) => {
@@ -85,9 +87,9 @@ const Login = () => {
         <input
           id="hashPassword"
           type="text"
-          onChange={handleSetPassword}
+          onChange={handleHashPassword}
         />
-        <div>Hashed Password: {password}</div>
+        <div>Hashed Password: {hashedPassword}</div>
       </div>
     </>
   );
